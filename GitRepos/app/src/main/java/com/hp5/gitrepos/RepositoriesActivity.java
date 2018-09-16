@@ -98,6 +98,7 @@ public class RepositoriesActivity extends AppCompatActivity {
         Repository repoTestItem;
         int min = 533;
         int max = 13874;
+
         Random r = new Random();
         int num= 0 ;
         for (int i =1;  i<=20; i++)
@@ -105,6 +106,7 @@ public class RepositoriesActivity extends AppCompatActivity {
             num= r.nextInt(max - min + 1) + min;
             repoTestItem = new Repository("Repo Name "+i, "This is repository N°"+i,
                     "www.google.com","Guest"+i,""+num );
+
             reposList.add(repoTestItem);
         }
         //End;
