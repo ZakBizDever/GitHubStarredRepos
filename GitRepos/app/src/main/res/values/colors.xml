@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#616371</color>
+    <color name="colorPrimaryDark">#2f313b</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="gitHubColor1">#393e41</color>
+    <color name="gitHubColorBG">#d3d0cb</color>
+</resources>
