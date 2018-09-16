@@ -11,18 +11,18 @@ public class Repository {
     private String repoOwnerAvatarUrl;
     private String repoOwnerName;
     private String repoStarsCount;
+    private String repoURL;
 
-    public Repository(String repoName, String repoDescription, String repoOwnerAvatarUrl, String repoOwnerName, String repoStarsCount) {
+    public Repository(String repoName, String repoDescription, String repoOwnerAvatarUrl, String repoOwnerName, String repoStarsCount, String repoURL) {
         this.repoName = repoName;
         this.repoDescription = repoDescription;
         this.repoOwnerAvatarUrl = repoOwnerAvatarUrl;
         this.repoOwnerName = repoOwnerName;
         this.repoStarsCount = repoStarsCount;
+        this.repoURL = repoURL;
     }
 
-    public String getRepoName() {
-        return repoName;
-    }
+    public String getRepoName() { return repoName;}
 
     public void setRepoName(String repoName) {
         this.repoName = repoName;
@@ -58,5 +58,11 @@ public class Repository {
 
     public void setRepoStarsCount(String repoStarsCount) {
         this.repoStarsCount = repoStarsCount;
+    }
+
+    public String getRepoURL() { return repoURL; }
+
+    public void setRepoURL(String repoURL) {
+        this.repoURL = repoURL;
     }
 }

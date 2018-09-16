@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 /**
@@ -37,9 +39,11 @@ public class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.Vi
         Repository repoItem = reposList.get(position);
 
         holder.repoName.setText(repoItem.getRepoName());
-        holder.repoDescriptioon.setText(repoItem.getRepoDescription());
+        holder.repoDescription.setText(repoItem.getRepoDescription());
         holder.repoOwnerName.setText(repoItem.getRepoOwnerName());
         holder.repoStarCount.setText(repoItem.getRepoStarsCount());
+
+        Picasso.with(context).load(repoItem.getRepoOwnerAvatarUrl()).into(holder.repoOwnerAvatar);
 
     }
 
@@ -51,7 +55,7 @@ public class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder
     {
         public TextView repoName;
-        public TextView repoDescriptioon;
+        public TextView repoDescription;
         public TextView repoOwnerName;
         public TextView repoStarCount;
         public ImageView repoOwnerAvatar;
@@ -60,7 +64,7 @@ public class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.Vi
             super(itemView);
 
             repoName = (TextView) itemView.findViewById(R.id.repoName_txt);
-            repoDescriptioon = (TextView) itemView.findViewById(R.id.repoDescription_txt);
+            repoDescription = (TextView) itemView.findViewById(R.id.repoDescription_txt);
             repoOwnerAvatar = (ImageView) itemView.findViewById(R.id.repoOwnerAvatar_img);
             repoOwnerName = (TextView) itemView.findViewById(R.id.repoOwnerName_txt);
             repoStarCount = (TextView) itemView.findViewById(R.id.repoStarCount_txt);

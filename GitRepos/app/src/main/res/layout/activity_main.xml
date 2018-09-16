@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:src="@mipmap/ic_launcher_foreground_octocatopus" />
+            android:src="@mipmap/ic_launcher_foreground_octocat_repo" />
 
         <TextView
             android:id="@+id/repoGitApp_txt"
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/repoGitApp_txt"
-            android:text="version 1.0.1"
+            android:text="version 1.1.1"
             android:textColor="@color/gitHubColorBG"/>
 
 
