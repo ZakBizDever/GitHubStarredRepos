@@ -2,13 +2,13 @@
 
 This is a small application that extract and list the last 30 days most starred repositories on GitHub, using a GitHub REST API that provides necessary data.
 
-File List
----------
-...
+
 For repositories listing, this app uses a 'RecyclerView'.
+
 Each repository/row is represented by a 'CardView'.
+
 The card view item incarnate the sample given in the "row-explained.png" file attached to this repository.
-...
+
 
 In order to fetch JSON data from the GitHub's REST API, this app uses "Volley" library to assure networking with GitHub's Web-Service.
 
