@@ -31,14 +31,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="[Repo Name]"
-                android:textSize="24sp" />
+                android:textColor="@android:color/background_dark"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gitHubColor1"
+                android:layout_marginTop="3dp"/>
 
             <TextView
                 android:id="@+id/repoDescription_txt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="[Repo Description]"
-                android:textSize="18sp" />
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -50,6 +58,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:foregroundGravity="left"
+                    android:layout_centerVertical="true"
                     android:src="@android:drawable/sym_def_app_icon" />
 
                 <TextView
@@ -57,10 +66,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="[Repo Owner Name]"
-                    android:layout_toRightOf="@+id/repoOwnerAvatar_img"
                     android:layout_marginLeft="5dp"
-                    android:gravity="center" />
+                    android:layout_toRightOf="@+id/repoOwnerAvatar_img"
+                    android:gravity="center"
+                    android:text="[Repo Owner Name]" />
 
                 <ImageView
                     android:id="@+id/star"
@@ -80,7 +89,7 @@
                     android:layout_marginRight="15dp"
                     android:gravity="end"
                     android:text="-1"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/repoURL"

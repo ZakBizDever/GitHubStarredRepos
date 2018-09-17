@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.widget.AbsListView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -25,10 +26,15 @@ import java.util.Random;
 
 public class RepositoriesActivity extends AppCompatActivity {
 
+    //test :
+    private String gitAPIurl = "https://api.github.com/search/repositories?q=created:>2017-10-22&sort=stars&order=desc&page=";
     private static final String GIT_API_URL="https://api.github.com/search/repositories?q=created:>2017-10-22&sort=stars&order=desc";
     private RecyclerView reposRecyclerView;
     private RecyclerView.Adapter repoAdapter;
     private List<Repository> reposList;
+    private LinearLayoutManager layoutManager;
+    private boolean isScrolling;
+    private int currentItems,totalItems,scrolledOutItems, page=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +50,42 @@ public class RepositoriesActivity extends AppCompatActivity {
 
         reposRecyclerView = (RecyclerView) findViewById(R.id.repos_RV);
         reposRecyclerView.setHasFixedSize(true);
-        reposRecyclerView.setLayoutManager( new LinearLayoutManager(this));
+        layoutManager = new LinearLayoutManager(this);
+        reposRecyclerView.setLayoutManager(layoutManager );
 
         reposList = new ArrayList<>();
 
-<<<<<<< HEAD
         loadRepositoriesData();
+
+        //Begin : setting an "OnScroll Listener" to implement the "Endless Scroll" concept -Pagination-
+        reposRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL)
+                {
+                    isScrolling = true;
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                currentItems = layoutManager.getChildCount();
+                totalItems = layoutManager.getItemCount();
+                scrolledOutItems = layoutManager.findFirstVisibleItemPosition();
+
+                if (isScrolling && ((currentItems + scrolledOutItems) == totalItems))
+                {
+                    isScrolling=false;
+                    page++;
+                    loadMoreRepositoriesData(page);
+                }
+
+            }
+        });
+        //End
 
     }
 
@@ -93,24 +129,6 @@ public class RepositoriesActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-=======
-        //Begin : Creating static data (in a List) in order to test our RecylerView, adapter ...
-        Repository repoTestItem;
-        int min = 533;
-        int max = 13874;
-
-        Random r = new Random();
-        int num= 0 ;
-        for (int i =1;  i<=20; i++)
-        {
-            num= r.nextInt(max - min + 1) + min;
-            repoTestItem = new Repository("Repo Name "+i, "This is repository N°"+i,
-                    "www.google.com","Guest"+i,""+num );
-
-            reposList.add(repoTestItem);
-        }
-        //End;
->>>>>>> 601af7df6ab0d610a1a727f77528d36c7c6d1002
 
                     }
                 },
@@ -118,7 +136,7 @@ public class RepositoriesActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        progressDialog.dismiss();
+//                        progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG);
                     }
                 });
@@ -127,4 +145,56 @@ public class RepositoriesActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
 
     }
+
+
+    private void loadMoreRepositoriesData(int pageFunc)
+    {
+        gitAPIurl = GIT_API_URL+"&page="+String.valueOf(pageFunc);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, gitAPIurl,
+                new Response.Listener<String>() {
+                    //On success, the code inside this method will be executed;
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray array = jsonObject.getJSONArray("items");
+
+                            for (int i=0; i<array.length(); i++)
+                            {
+                                JSONObject repoObject = array.getJSONObject(i);
+                                JSONObject repoOwnerObject = repoObject.getJSONObject("owner");
+                                Repository repo = new Repository(repoObject.getString("name"),
+                                        repoObject.getString("description"),
+                                        repoOwnerObject.getString("avatar_url"),
+                                        repoOwnerObject.getString("login"),
+                                        repoObject.getString("stargazers_count"),
+                                        repoObject.getString("html_url"));
+
+                                reposList.add(repo);
+                            }
+
+                            repoAdapter.notifyDataSetChanged();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                //On failure, this code will be executed instead.
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+//                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG);
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+
+    }
+
 }
