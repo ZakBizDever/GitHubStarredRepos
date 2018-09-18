@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.AbsListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -31,6 +33,7 @@ public class RepositoriesActivity extends AppCompatActivity {
     private static final String GIT_API_URL="https://api.github.com/search/repositories?q=created:>2017-10-22&sort=stars&order=desc";
     private RecyclerView reposRecyclerView;
     private RecyclerView.Adapter repoAdapter;
+    private ProgressBar progressBar;
     private List<Repository> reposList;
     private LinearLayoutManager layoutManager;
     private boolean isScrolling;
@@ -48,6 +51,7 @@ public class RepositoriesActivity extends AppCompatActivity {
         getSupportActionBar().setIcon(getDrawable(R.drawable.ic_action_github));
         //End
 
+        progressBar= (ProgressBar) findViewById(R.id.progressBar);
         reposRecyclerView = (RecyclerView) findViewById(R.id.repos_RV);
         reposRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
@@ -149,6 +153,8 @@ public class RepositoriesActivity extends AppCompatActivity {
 
     private void loadMoreRepositoriesData(int pageFunc)
     {
+        progressBar.setVisibility(View.VISIBLE);
+
         gitAPIurl = GIT_API_URL+"&page="+String.valueOf(pageFunc);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, gitAPIurl,
@@ -175,7 +181,10 @@ public class RepositoriesActivity extends AppCompatActivity {
                                 reposList.add(repo);
                             }
 
+                            progressBar.setVisibility(View.GONE);
                             repoAdapter.notifyDataSetChanged();
+
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();

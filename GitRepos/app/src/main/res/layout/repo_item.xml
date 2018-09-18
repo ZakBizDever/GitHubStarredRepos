@@ -19,6 +19,7 @@
         android:layout_margin="6dp">
 
         <LinearLayout
+            android:id="@+id/linLay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -37,8 +38,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/gitHubColor1"
-                android:layout_marginTop="3dp"/>
+                android:layout_marginTop="3dp"
+                android:background="@color/cardview_shadow_start_color" />
 
             <TextView
                 android:id="@+id/repoDescription_txt"
@@ -78,7 +79,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="1dp"
                     android:layout_toLeftOf="@id/repoStarCount_txt"
-                    android:src="@mipmap/ic_star_foreground" />
+                    android:src="@mipmap/ic_star_scnd" />
 
                 <TextView
                     android:id="@+id/repoStarCount_txt"

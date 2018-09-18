@@ -1,12 +1,15 @@
 package com.hp5.gitrepos;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -36,7 +39,7 @@ public class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        Repository repoItem = reposList.get(position);
+        final Repository repoItem = reposList.get(position);
 
         holder.repoName.setText(repoItem.getRepoName());
         holder.repoDescription.setText(repoItem.getRepoDescription());
@@ -44,6 +47,22 @@ public class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.Vi
         holder.repoStarCount.setText(repoItem.getRepoStarsCount());
 
         Picasso.with(context).load(repoItem.getRepoOwnerAvatarUrl()).into(holder.repoOwnerAvatar);
+
+        //Begin : Handling the click on an item
+        holder.linLay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(context, RepoShowActivity.class);
+                intent.putExtra("repoURL",repoItem.getRepoURL());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+
+                Toast.makeText(context,"Repository : "+repoItem.getRepoName(),Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        //End
 
     }
 
@@ -60,6 +79,8 @@ public class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.Vi
         public TextView repoStarCount;
         public ImageView repoOwnerAvatar;
 
+        public LinearLayout linLay;
+
         public ViewHolder(View itemView) {
             super(itemView);
 
@@ -68,6 +89,7 @@ public class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.Vi
             repoOwnerAvatar = (ImageView) itemView.findViewById(R.id.repoOwnerAvatar_img);
             repoOwnerName = (TextView) itemView.findViewById(R.id.repoOwnerName_txt);
             repoStarCount = (TextView) itemView.findViewById(R.id.repoStarCount_txt);
+            linLay = (LinearLayout) itemView.findViewById(R.id.linLay);
         }
     }
 }
